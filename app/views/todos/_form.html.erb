@@ -1,0 +1,57 @@
+<%= form_with(model: todo, local: true) do |form| %>
+  <% if todo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(todo.errors.count, "error") %> prohibited this todo from being saved:</h2>
+
+      <ul>
+      <% todo.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :description %>
+    <%= form.text_field :description, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :position %>
+    <%= form.number_field :position, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :due_date %>
+    <%= form.text_field :due_date,
+      class: 'form-control',
+      placeholder: t(".select"),
+      data: {
+        controller: "flatpickr",
+        flatpickr_alt_format: t("date.formats.long"),
+        flatpickr_alt_input: true,
+        flatpickr_default_date: todo.due_date,
+        flatpickr_locale: locale,
+        flatpickr_show_months: 2,
+        flatpickr_min_date: Time.zone.now,
+        flatpickr_max_date: Time.zone.now + 60.days
+        # flatpickr_disable: Appointment.up_comings(60).pluck(:start_at) - [appointment.start_at],
+      } %>
+  </div>
+
+  <div class="form-group">
+    <% if todo.persisted? %>
+      <div class="float-right">
+        <%= link_to 'Destroy', todo, method: :delete, class: "text-danger", data: { confirm: 'Are you sure?' } %>
+      </div>
+    <% end %>
+
+    <%= form.submit class: 'btn btn-primary' %>
+
+    <% if todo.persisted? %>
+      <%= link_to "Cancel", todo, class: "btn btn-link" %>
+    <% else %>
+      <%= link_to "Cancel", todos_path, class: "btn btn-link" %>
+    <% end %>
+  </div>
+<% end %>

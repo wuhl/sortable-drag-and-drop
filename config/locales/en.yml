@@ -31,3 +31,9 @@
 
 en:
   hello: "Hello world"
+  locales:
+    fr: French
+    en: English
+  todos:
+    form:
+      select: "Pick a date"

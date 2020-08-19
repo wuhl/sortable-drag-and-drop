@@ -1,0 +1,1 @@
+CREATE USER sortable_drag_and_drop_development SUPERUSER;
